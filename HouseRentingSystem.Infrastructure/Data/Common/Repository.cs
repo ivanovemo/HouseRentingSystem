@@ -30,7 +30,7 @@ namespace HouseRentingSystem.Infrastructure.Data.Common
                 .AsNoTracking();
         }
 
-        public async Task AddAsync<T>(T entity) where T : class
+        public async Task Add<T>(T entity) where T : class
         {
             await DbSet<T>().AddAsync(entity);
         }
