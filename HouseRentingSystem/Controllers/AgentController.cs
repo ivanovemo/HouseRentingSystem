@@ -46,7 +46,7 @@ namespace HouseRentingSystem.Controllers
 
             await _agentService.CreateAsync(User.Id(), model.PhoneNumber);
 
-            return RedirectToAction(nameof(HouseController.All), "House");
+            return RedirectToAction("All", "House");
         }
     }
 }

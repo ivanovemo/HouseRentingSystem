@@ -1,13 +1,29 @@
-﻿using HouseRentingSystem.Core.Models.House;
+﻿using HouseRentingSystem.Attributes;
+using HouseRentingSystem.Core.Contracts;
+using HouseRentingSystem.Core.Models.House;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
+using System.Security.Claims;
 
 namespace HouseRentingSystem.Controllers
 {
     public class HouseController : BaseController
     {
+        private readonly IHouseService _houseService;
+        private readonly IAgentService _agentService;
+
+        public HouseController(
+            IHouseService houseService,
+            IAgentService agentService)
+        {
+            _houseService = houseService;
+            _agentService = agentService;
+        }
+
         [AllowAnonymous]
-        public IActionResult All()
+        [HttpGet]
+        public async Task<IActionResult> All()
         {
             var model = new AllHousesQueryModel();
 
@@ -31,15 +47,38 @@ namespace HouseRentingSystem.Controllers
         }
 
         [HttpGet]
+        [MustBeAgent]
         public async Task<IActionResult> Add()
         {
-            return View();
+            var model = new HouseFormModel()
+            {
+                Categories = await _houseService.AllCategoriesAsync()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
+        [MustBeAgent]
         public async Task<IActionResult> Add(HouseFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = 1 });
+            if (await _houseService.CategoryExistsAsync(model.CategoryId) == false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Categories = await _houseService.AllCategoriesAsync();
+
+                return View(model);
+            }
+
+            int? agentId = await _agentService.GetAgentIdAsync(User.Id());
+
+            int newHouseId = await _houseService.CreateAsync(model, agentId ?? 0);
+
+            return RedirectToAction(nameof(Details), new { id = newHouseId });
         }
 
         [HttpGet]

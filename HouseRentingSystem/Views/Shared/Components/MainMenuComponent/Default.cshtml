@@ -2,7 +2,7 @@
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="All">All Houses</a>
     </li>
-    @if (User.Identity.IsAuthenticated)
+    @if (this.User?.Identity?.IsAuthenticated ?? false)
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="House" asp-action="Mine">My Houses</a>
