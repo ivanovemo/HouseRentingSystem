@@ -3,7 +3,7 @@ using HouseRentingSystem.Core.Models.Home;
 using HouseRentingSystem.Infrastructure.Data.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace HouseRentingSystem.Core.Services.House
+namespace HouseRentingSystem.Core.Services
 {
     public class HouseService : IHouseService
     {
@@ -14,7 +14,7 @@ namespace HouseRentingSystem.Core.Services.House
             _repository = repository;
         }
 
-        public async Task<IEnumerable<HouseIndexServiceModel>> LastThreeHouses()
+        public async Task<IEnumerable<HouseIndexServiceModel>> LastThreeHousesAsync()
         {
             return await _repository
                 .AllReadOnly<Infrastructure.Data.Models.House>()
