@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 using static HouseRentingSystem.Core.Constants.MessageConstants;
 using static HouseRentingSystem.Infrastructure.Constants.DataConstants;
 
 namespace HouseRentingSystem.Core.Models.House
 {
-    public class HouseFormModel
+    public class HouseServiceModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = RequiredMessage)]
         [StringLength(HouseTitleMaxLength,
             MinimumLength = HouseTitleMinLength,
@@ -19,25 +20,16 @@ namespace HouseRentingSystem.Core.Models.House
            ErrorMessage = LengthMessage)]
         public string Address { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = RequiredMessage)]
-        [StringLength(HouseDescriptionMaxLength,
-           MinimumLength = HouseDescriptionMinLength,
-           ErrorMessage = LengthMessage)]
-        public string Description { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = RequiredMessage)]
         [Display(Name = "Image URL")]
         public string ImageUrl { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequiredMessage)]
         [Range(typeof(decimal), HouseRentingPriceMinimum, HouseRentingPriceMaximum,
             ErrorMessage = "Price per month must be a positive number and less than {2} leva.")]
-        [Display(Name = "Price per month")]
+        [Display(Name = "Price per Month")]
         public decimal PricePerMonth { get; set; }
 
-        [Display(Name = "Category")]
-        public int CategoryId { get; set; }
-
-        public IEnumerable<HouseCategoryServiceModel> Categories { get; set; } = new List<HouseCategoryServiceModel>();
+        [Display(Name = "Is Rented")]
+        public bool IsRented { get; set; }
     }
 }
