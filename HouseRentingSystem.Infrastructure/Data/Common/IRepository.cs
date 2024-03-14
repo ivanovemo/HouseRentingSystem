@@ -15,5 +15,7 @@ namespace HouseRentingSystem.Infrastructure.Data.Common
         Task AddAsync<T>(T entity) where T : class;
 
         Task<int> SaveChangesAsync();
+
+        Task<T?> GetByIdAsync<T>(object id) where T : class;
     }
 }
