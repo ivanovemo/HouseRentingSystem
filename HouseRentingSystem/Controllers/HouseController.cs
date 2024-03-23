@@ -18,7 +18,7 @@ namespace HouseRentingSystem.Controllers
         public HouseController(
             IHouseService houseService,
             IAgentService agentService,
-            ILogger logger)
+            ILogger<HouseController> logger)
         {
             _houseService = houseService;
             _agentService = agentService;
