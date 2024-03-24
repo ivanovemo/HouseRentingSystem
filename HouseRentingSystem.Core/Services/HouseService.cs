@@ -242,6 +242,7 @@ namespace HouseRentingSystem.Core.Services
                 .Select(h => new HouseIndexServiceModel()
                 {
                     Id = 3,
+                    Address = h.Address,
                     ImageUrl = h.ImageUrl,
                     Title = h.Title
                 })
